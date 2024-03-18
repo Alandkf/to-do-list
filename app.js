@@ -1,12 +1,11 @@
 const express = require('express');
 // const bodyParser = require('body-parser'); no longer needed since Express 4.16.0+
 const path = require('path');
-const date = require(__dirname+'/date.js');
 const mongoose = require('mongoose');
 const app = express();
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.json());
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
@@ -25,11 +24,20 @@ const dbSchema = new mongoose.Schema ({
 });
 const Item = mongoose.model("Item", dbSchema);
 
-const Item1 = new Item({item:"Buy groceries"})
-Item1.save().then(()=>{console.log("new Item saved successfully");})
-.catch(()=>{console.log("failed to save the new Item");})
+const Item1 = new Item({item:"Welcome to your to-do-list"})
+const Item2 = new Item({item:"Hit the + button to add a new item"});
+const Item3 = new Item({item:"<-- and hit this to delete a new item"});
+const defaultItem = [Item1, Item2, Item3];
 
+Item.insertMany(defaultItem).then(()=>{console.log("default item inserted");})
+.catch(err=>{console.log("error in inserting default items"+err)});
 
+// Item1.save().then(()=>{console.log("new Item saved successfully");})
+// .catch(()=>{console.log("failed to save the new Item");})
+
+// Item.deleteOne({_id:"65f825425322acbc51d6312e"})
+// .then(()=>{console.log("deleted")})
+// .catch(err=>{console.log("error in deleting an item "+err)})
 
 
 
@@ -40,8 +48,8 @@ Item1.save().then(()=>{console.log("new Item saved successfully");})
 
 
 app.get('/', (req, res) => {
-    let day = date.getDate();
-    res.render('list',{DAY:day , newItems:newItems});
+
+    res.render('list',{DAY:"today" , newItems:newItems});
 });
 
 app.post("/",(req, res) =>{
