@@ -1,8 +1,8 @@
 const express = require('express');
-const bodyParser = require('body-parser');
+// const bodyParser = require('body-parser'); no longer needed since Express 4.16.0+
 const path = require('path');
 const date = require(__dirname+'/date.js');
-
+const mongoose = require('mongoose');
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -12,8 +12,30 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-let newItems = ["wake up","wash my hands","go to work"];
-let workItems = [];
+// Start now
+
+const uri = "mongodb://localhost:27017/todolistDB";
+
+mongoose.connect(uri).then(()=>{console.log("connected to database successfully")
+}).catch(err=>console.log("ERROR WE DATABASE DID NOT CONNECTED" + err));
+
+
+const dbSchema = new mongoose.Schema ({
+    item:{type : String , required :true}, 
+});
+const Item = mongoose.model("Item", dbSchema);
+
+const Item1 = new Item({item:"Buy groceries"})
+Item1.save().then(()=>{console.log("new Item saved successfully");})
+.catch(()=>{console.log("failed to save the new Item");})
+
+
+
+
+
+
+
+
 
 
 
