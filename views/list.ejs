@@ -5,23 +5,17 @@
     </div>
 
      <div class="box">
-     <!-- <%// for(let i = 0; i < newItems.length; i++) { %>
-        <div class="item">
-           <input type="checkbox">   
-           <p> <%=// newItems[i] %> </p>
-      </div>
-     <%//  } %> -->
-
-      
+ 
      <%newItems.forEach((i)=>{%>
 
       <form action="/delete" method="post">
       <div class="item">
          <input type="checkbox" value="<%=i._id%>" name="checkbox" onchange="this.form.submit()">   
-         <p> <%= i.item %> </p>
+         <p> <%= i.name %> </p>
       </div>
-      <% }) %>
-   </form>
+        <input type="hidden" name="listName" value="<%= DAY %>"/></input>
+    </form>
+    <% }) %>
            
      <form action="/" method="post" class="item">
       <input type="text" name="newItem" autocomplete="off" placeholder="Add a new task..." />
@@ -31,13 +25,5 @@
   </div>
 
 
- 
-
-  <script>
-    function toggleCompleted(index) {
-      const listItem = document.querySelector(`#item${index}`);
-      listItem.classList.toggle("completed");
-    }
-  </script>
 
 <%-include("footer")-%>
