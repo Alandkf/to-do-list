@@ -13,6 +13,7 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 const uri = "mongodb+srv://aland:Test123@cluster0.57ts4rh.mongodb.net/todolistDB";
+// uri = "mongodb+srv://aland:Test123@cluster0.57ts4rh.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 
 mongoose.connect(uri).then(() => {
     console.log("Connected to database successfully");
@@ -46,7 +47,7 @@ app.get('/', (req, res) => {
                     })
                     .catch((err) => {
                         console.log("Error inserting default items: " + err);
-                        res.status(500).send("Internal Server Error");
+                        res.status(500).send("Internal Server Error 1");
                     });
             } else {
                 res.render('list', { DAY: "today", newItems: items });
@@ -54,7 +55,7 @@ app.get('/', (req, res) => {
         })
         .catch((err) => {
             console.log("Error finding items: " + err);
-            res.status(500).send("Internal Server Error");
+            res.status(500).send("Internal Server Error 2 ");
         });
 });
 
@@ -91,7 +92,7 @@ app.post('/delete', (req, res) => {
             res.redirect("/");
         }).catch(err => {
             console.log("Error deleting item: " + err);
-            res.status(500).send("Internal Server Error");
+            res.status(500).send("Internal Server Error 3");
         });
     } else {
         List.findOneAndUpdate({ name: listName }, { $pull: { items: { _id: id } } })
@@ -100,7 +101,7 @@ app.post('/delete', (req, res) => {
                 res.redirect("/" + listName);
             }).catch(err => {
                 console.log("Error deleting item from list: " + err);
-                res.status(500).send("Internal Server Error");
+                res.status(500).send("Internal Server Error 4");
             });
     }
 });
@@ -130,7 +131,7 @@ app.get('/:customListName', (req, res) => {
         .catch(err => {
             console.log("log here");
             console.log("Error finding list: " + err);
-            res.status(500).send("Internal Server Error again");
+            res.status(500).send("Internal Server Error 5");
         });
 });
 
