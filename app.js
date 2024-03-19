@@ -130,7 +130,7 @@ app.get('/:customListName', (req, res) => {
         .catch(err => {
             console.log("log here");
             console.log("Error finding list: " + err);
-            res.status(500).send("Internal Server Error");
+            res.status(500).send("Internal Server Error again");
         });
 });
 
